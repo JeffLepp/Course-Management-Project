@@ -1,3 +1,4 @@
+-- Feel free to change any seeded data as you want!
 -- users
 INSERT INTO users (email, password, user_type, first_name, last_name, is_active)
 VALUES

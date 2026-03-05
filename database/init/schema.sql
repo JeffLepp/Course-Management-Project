@@ -1,5 +1,6 @@
-CREATE DATABASE  IF NOT EXISTS `course_management` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `course_management`;
+-- docker automatically handles DB instatiation
+-- CREATE DATABASE  IF NOT EXISTS `course_management` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-- USE `course_management`;
 -- MySQL dump 10.13  Distrib 8.0.45, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: course_management
@@ -25,7 +26,7 @@ DROP TABLE IF EXISTS `activity_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `activity_logs` (
-  `log_id` int NOT NULL,
+  `log_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `activity_type` varchar(200) NOT NULL,
   `description` varchar(500) NOT NULL,
@@ -44,7 +45,7 @@ DROP TABLE IF EXISTS `courses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `courses` (
-  `course_id` int NOT NULL,
+  `course_id` int NOT NULL AUTO_INCREMENT,
   `course_code` varchar(250) NOT NULL,
   `title` varchar(250) NOT NULL,
   `description` varchar(500) NOT NULL,
@@ -76,7 +77,7 @@ DROP TABLE IF EXISTS `enrollments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `enrollments` (
-  `enrollment_id` int NOT NULL,
+  `enrollment_id` int NOT NULL AUTO_INCREMENT,
   `student_id` int NOT NULL,
   `course_id` int NOT NULL,
   `enrollment_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -105,7 +106,7 @@ DROP TABLE IF EXISTS `grades`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `grades` (
-  `grade_id` int NOT NULL,
+  `grade_id` int NOT NULL AUTO_INCREMENT,
   `grade_value` varchar(2) NOT NULL,
   `grade_description` varchar(100) DEFAULT NULL,
   `grade_points` decimal(3,2) DEFAULT NULL,
@@ -123,7 +124,7 @@ DROP TABLE IF EXISTS `instructors`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `instructors` (
-  `instructor_id` int NOT NULL,
+  `instructor_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `department` varchar(100) DEFAULT NULL,
   `office_location` varchar(100) DEFAULT NULL,
@@ -142,7 +143,7 @@ DROP TABLE IF EXISTS `students`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `students` (
-  `student_id` int NOT NULL,
+  `student_id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `student_number` varchar(50) NOT NULL,
   `enrollment_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -163,7 +164,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `user_id` int NOT NULL,
+  `user_id` int NOT NULL AUTO_INCREMENT,
   `email` varchar(250) NOT NULL,
   `password` varchar(250) NOT NULL,
   `user_type` varchar(20) DEFAULT NULL,

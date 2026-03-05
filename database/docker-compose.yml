@@ -1,0 +1,18 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: courseflow_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: course_management
+      MYSQL_USER: courseflow
+      MYSQL_PASSWORD: courseflow
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+
+volumes:
+  dbdata:

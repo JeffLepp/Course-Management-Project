@@ -4,9 +4,9 @@ Some quick notes for interacting with this thing:
 1) Download and run Docker Desktop
 
 2) Run command in project directory
-'''
+```
 docker compose -f database/docker-compose.yml up -d
-'''
+```
 
 3) [Optional] In-terminal MySQL use (no MySQL install needed)
 ```

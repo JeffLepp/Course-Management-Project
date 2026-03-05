@@ -11,6 +11,7 @@ docker compose -f database/docker-compose.yml up -d
 3) [Optional] In-terminal MySQL use (no MySQL install needed)
 ```
 docker exec -it courseflow_mysql mysql -u courseflow -pcourseflow -D course_management
+PASSWORD: courseflow
 ```
    [Optional] Test with commands like:
 ```

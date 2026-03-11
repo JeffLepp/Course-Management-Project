@@ -14,6 +14,32 @@ const AppState = {
     currentView: 'overview',
   };
   
+
+  function switchView(el) {
+
+    // remove active from all sidebar items
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+    });
+  
+    // activate the clicked one
+    el.classList.add('active');
+  
+    const view = el.dataset.view;
+  
+    // show the view
+    showView(view);
+  
+    // load the correct data
+    if (view === 'courses') loadCourses();
+    if (view === 'my-courses') loadMyCourses();
+    if (view === 'enrollment') loadEnrollmentStatus();
+    if (view === 'admin') {
+      loadAdminStats();
+      loadPendingApprovals();
+    }
+    if (view === 'logs') loadLogs();
+  }
   
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -49,6 +75,7 @@ const AppState = {
       showToast('Please fill in all fields.', 'error');
       return;
     }
+    
   
     try {
       // TODO: await firebase.auth().signInWithEmailAndPassword(email, password);
@@ -125,12 +152,83 @@ const AppState = {
     try {
       // TODO: const courses = await fetch('/api/courses').then(r => r.json());
       // data base needs to be updated and added here
-      const courses = []; // placeholder until database is ready
-      renderCourseGrid(courses);
+      // Just for tests
+      const courses = [
+        {
+        id:1,
+        department:"CPTS",
+        code:"CPTS 322",
+        title:"Software Engineering",
+        instructor:"Dr. Johnson",
+        credits:3,
+        description:"Learn software design, requirements analysis, and project management.",
+        syllabus:[
+        "Software Development Lifecycle",
+        "Requirements Engineering",
+        "UML Modeling",
+        "Agile Development"
+        ],
+        seats_filled:20,
+        seats_total:30
+        },
+        {
+        id:2,
+        department:"CPTS",
+        code:"CPTS 223",
+        title:"Data Structures",
+        instructor:"Dr. Clarke",
+        credits:4,
+        description:"Study linked lists, stacks, queues, and algorithm complexity.",
+        syllabus:[
+        "Linked Lists",
+        "Stacks & Queues",
+        "Binary Trees",
+        "Big-O Analysis"
+        ],
+        seats_filled:15,
+        seats_total:25
+        }
+        ];
+        
+        window.demoCourses = courses;
+        renderCourseGrid(courses);      renderCourseGrid(courses);
     } catch (err) {
       console.error('Failed to load courses:', err);
       grid.innerHTML = '<p style="color:#ef4444;padding:20px">Failed to load courses.</p>';
     }
+  }
+
+  function openCourseModal(courseId) {
+
+    const modal = document.getElementById("course-modal");
+    const body = document.getElementById("course-modal-body");
+  
+    const course = window.demoCourses.find(c => c.id === courseId);
+  
+    body.innerHTML = `
+      <h3>${course.code} — ${course.title}</h3>
+  
+      <p><strong>Instructor:</strong> ${course.instructor}</p>
+      <p><strong>Credits:</strong> ${course.credits}</p>
+  
+      <h4>Description</h4>
+      <p>${course.description}</p>
+  
+      <h4>Syllabus Topics</h4>
+      <ul>
+        ${course.syllabus.map(topic => `<li>${topic}</li>`).join("")}
+      </ul>
+  
+      <button class="enroll-btn" onclick="enrollInCourse(${course.id})">
+        Request Enrollment
+      </button>
+  
+      <button class="btn-sm" onclick="closeModal('course-modal')">
+        Close
+      </button>
+    `;
+  
+    modal.classList.add("open");
   }
   
   function renderCourseGrid(courses) {

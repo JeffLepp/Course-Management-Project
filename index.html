@@ -216,16 +216,17 @@
     <div class="sidebar">
       <div class="sidebar-title">CourseFlow</div>
       <nav>
-        <div class="nav-item active" data-view="overview"   onclick="switchView(this)">Overview</div>
-        <div class="nav-item"        data-view="courses"    onclick="switchView(this)">Browse Courses</div>
-        <div class="nav-item"        data-view="my-courses" onclick="switchView(this)">My Courses</div>
-        <div class="nav-item"        data-view="enrollment" onclick="switchView(this)">Enrollment Status</div>
-        <div class="nav-item"        data-view="admin"      onclick="switchView(this)">Admin Panel</div>
-        <div class="nav-item"        data-view="logs"       onclick="switchView(this)">Activity Logs</div>
+        <div class="nav-item nav-link active" data-view="overview">Overview</div>
+        <div class="nav-item nav-link" data-view="courses">Browse Courses</div>
+        <div class="nav-item nav-link" data-view="my-courses">My Courses</div>
+        <div class="nav-item nav-link" data-view="enrollment">Enrollment Status</div>
+        <div class="nav-item nav-link" data-view="admin">Admin Panel</div>
+        <div class="nav-item nav-link" data-view="logs">Activity Logs</div>
       </nav>
       <div class="sidebar-user">
-        <strong id="sidebar-name">User</strong>
-        <span id="sidebar-role">Role</span>
+        <strong id="sidebar-user-name">User</strong>
+        <span id="sidebar-user-role">Role</span>
+        <div id="sidebar-user-avatar" style="margin-top:8px;"></div>
         <button class="logout-btn" onclick="logout()">Sign Out</button>
       </div>
     </div>

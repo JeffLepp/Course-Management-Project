@@ -119,13 +119,17 @@ const AppState = {
   async function loadCourses() {
     const grid = document.getElementById('course-grid');
     if (!grid) return;
-  
+
     grid.innerHTML = '<p style="color:#9CA3AF;padding:20px">Loading courses...</p>';
-  
+
     try {
-      // TODO: const courses = await fetch('/api/courses').then(r => r.json());
-      // data base needs to be updated and added here
-      const courses = []; // placeholder until database is ready
+      const response = await fetch('http://localhost:3001/api/courses');
+      const courses = await response.json();
+
+      if (!response.ok) {
+        throw new Error(courses.message || 'Failed to load courses');
+      }
+
       renderCourseGrid(courses);
     } catch (err) {
       console.error('Failed to load courses:', err);
@@ -459,10 +463,40 @@ const AppState = {
    *       or call GET /api/overview?userId=:id
    */
   async function loadOverview() {
+    if (!AppState.currentUser?.id) return;
+
     try {
-      // TODO: const data = await fetch('/api/overview?userId=' + AppState.currentUser.id).then(r => r.json());
-      // TODO: populate stat cards, enrollment list, and activity feed
-      console.log('TODO: load overview data from /api/overview');
+      const response = await fetch(`http://localhost:3001/api/overview?userId=${AppState.currentUser.id}`);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to load overview');
+      }
+
+      const enrolledEl = document.getElementById('stat-enrolled');
+      const pendingEl = document.getElementById('stat-pending');
+      const creditsEl = document.getElementById('stat-credits');
+      const completedEl = document.getElementById('stat-completed');
+      const feedEl = document.getElementById('activity-feed');
+
+      if (enrolledEl) enrolledEl.textContent = data.enrolled ?? 0;
+      if (pendingEl) pendingEl.textContent = data.pending ?? 0;
+      if (creditsEl) creditsEl.textContent = data.credits ?? 0;
+      if (completedEl) completedEl.textContent = data.completed ?? 0;
+
+      if (feedEl) {
+        if (!data.activity?.length) {
+          feedEl.innerHTML = '<p style="color:#9CA3AF">No recent activity.</p>';
+        } else {
+          feedEl.innerHTML = data.activity.map(a => `
+            <div style="padding:10px 0;border-bottom:1px solid #eee">
+              <div style="font-weight:600">${a.activity_type}</div>
+              <div style="font-size:.9rem;color:#666">${a.description}</div>
+              <div style="font-size:.8rem;color:#999">${a.created_at}</div>
+            </div>
+          `).join('');
+        }
+      }
     } catch (err) {
       console.error('Failed to load overview:', err);
     }
